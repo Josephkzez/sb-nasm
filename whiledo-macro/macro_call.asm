@@ -4,14 +4,16 @@ SECTION .text
 global test ;unix
 global _test ; windowns
 
-%macro do 0
-	%push doctx
-	%$do: 
+%macro endwhile 0
+	jmp %$while
+	%$endwhile:
+	%pop
 %endmacro
 
 %macro while 1
-	j%-1 %$do
-	%pop
+	%push whilectx
+	%$while:
+	j%1 %$endwhile 
 %endmacro
 
 
@@ -23,11 +25,11 @@ _test:
 
     mov ebx, [ebp+8]
     mov eax, ebx
-    cmp eax, 10         ;makes some checking
-    do
-		dec eax
-		cmp eax, 0
-	while Z ; condition code da flag zero
+    cmp eax, 42         ;makes some checking
+	while Z
+		add eax, 1
+		cmp eax, 42
+	endwhile ; condition code da flag zero
 		
     pop ebx
     mov esp, ebp
