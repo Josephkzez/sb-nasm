@@ -23,6 +23,7 @@ _test:
 
     mov ebx, [ebp+8]
     mov eax, ebx
+    cmp eax, 10         ;makes some checking
     do
 		dec eax
 		cmp eax, 0
